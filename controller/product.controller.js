@@ -154,7 +154,7 @@ module.exports.updateProduct = async (req, res) => {
 
     let fields = ['name', 'price', 'category', 'description', 'url'];
 
-    let VaildFields = fields.filter(x => x == 'url' || !isNull(body[x]));
+    let VaildFields = fields.filter(x => !isNull(body[x]));
 
     if (isEmpty(VaildFields)) {
         return ReE(res, { message: `Please enter something to updated product!.` }, HttpStatus.BAD_REQUEST);
@@ -249,15 +249,15 @@ module.exports.updateProduct = async (req, res) => {
 
     if (updatedField.includes('price')) {
 
-        if (isNaN(price)) return ReE(res, { message: "Please enter vaild product price detail!." }, HttpStatus.BAD_REQUEST);
+        if (isNaN(body.price)) return ReE(res, { message: "Please enter vaild product price detail!." }, HttpStatus.BAD_REQUEST);
 
         if (Number(body.price) === checkProduct.price) return ReE(res, { message: "Please edit something to update product price!" }, HttpStatus.BAD_REQUEST);
 
-        if (Number(price) < CONFIG.price.min && Number(price) > CONFIG.price.max) return ReE(res, { message: `Please enter vaild product price within ${CONFIG.price.min}to ${CONFIG.price.max} !.` }, HttpStatus.BAD_REQUEST);
+        if (Number(body.price) < CONFIG.price.min && Number(body.price) > CONFIG.price.max) return ReE(res, { message: `Please enter vaild product price within ${CONFIG.price.min} to ${CONFIG.price.max} !.` }, HttpStatus.BAD_REQUEST);
 
         updatedData.set = {
             ...updatedData.set,
-            price: Number(price)
+            price: Number(body.price)
         }
     }
 
@@ -265,14 +265,14 @@ module.exports.updateProduct = async (req, res) => {
 
         if (firstLatterCap(body.category).trim() === checkProduct.category) return ReE(res, { message: "Please edit something to update product category!" }, HttpStatus.BAD_REQUEST);
 
-        if (!CONFIG.category.includes(String(category))) return ReE(res, { message: "Please select vaild product category details!." }, HttpStatus.BAD_REQUEST);
+        if (!CONFIG.category.includes(String(body.category))) return ReE(res, { message: "Please select vaild product category details!." }, HttpStatus.BAD_REQUEST);
 
         updatedData.set = {
             ...updatedData.set,
             category: firstLatterCap(body.category).trim()
         }
     }
-    console.log(checkProduct.url,"ss");
+
     if (updatedField.includes('url')) {
 
         if ((body.url === checkProduct.url) || (isNull(body.url) && isNull(checkProduct.url))) return ReE(res, { message: "Please edit something to update product category!" }, HttpStatus.BAD_REQUEST);

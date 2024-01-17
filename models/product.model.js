@@ -10,9 +10,7 @@ const ProductSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true,
-        min: 10,
-        max: 2000
+        required: true
     },
     description: {
         type: String,

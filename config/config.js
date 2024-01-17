@@ -10,7 +10,7 @@ CONFIG.price = { min: 1, max: 300000 };
 
 CONFIG.category = ['Fashion', 'Clothes', 'Shoes', 'Jwellary'];
 
-CONFIG.name = { min: 3, max: 200 };
+CONFIG.name = { min: 2, max: 200 };
 
 CONFIG.description = { min: 10, max: 2000 };
 
